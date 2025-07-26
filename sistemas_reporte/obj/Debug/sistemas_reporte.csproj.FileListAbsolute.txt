@@ -1,0 +1,7 @@
+C:\Users\Franyel\Documents\SharpDevelop Projects\sistemas_reporte\sistemas_reporte\obj\Debug\sistemas_reporte.csprojResolveAssemblyReference.cache
+C:\Users\Franyel\Documents\SharpDevelop Projects\sistemas_reporte\sistemas_reporte\obj\Debug\sistemas_reporte.MainForm.resources
+C:\Users\Franyel\Documents\SharpDevelop Projects\sistemas_reporte\sistemas_reporte\obj\Debug\sistemas_reporte.csproj.GenerateResource.Cache
+C:\Users\Franyel\Documents\SharpDevelop Projects\sistemas_reporte\sistemas_reporte\bin\Debug\sistemas_reporte.exe
+C:\Users\Franyel\Documents\SharpDevelop Projects\sistemas_reporte\sistemas_reporte\bin\Debug\sistemas_reporte.pdb
+C:\Users\Franyel\Documents\SharpDevelop Projects\sistemas_reporte\sistemas_reporte\obj\Debug\sistemas_reporte.exe
+C:\Users\Franyel\Documents\SharpDevelop Projects\sistemas_reporte\sistemas_reporte\obj\Debug\sistemas_reporte.pdb
