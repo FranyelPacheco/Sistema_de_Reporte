@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace sistemas_reporte
 {
@@ -11,8 +14,7 @@ namespace sistemas_reporte
 		{
 			InitializeComponent();
 			gbx_mantenimiento.Enabled = false;
-			
-			
+		
 		}
 		int numero_codigo;
 		int valor_x = 0;
@@ -21,6 +23,8 @@ namespace sistemas_reporte
 		// Poder ingresar datos
 		void Btt_nuevoClick(object sender, EventArgs e)
 		{
+			tbx_codigo.Text = "";
+			tbx_descripcion.Text = "";
 			valor_x = 0;
 			tbx_codigo.Enabled=true;
 			gbx_mantenimiento.Enabled = true;
@@ -32,6 +36,8 @@ namespace sistemas_reporte
 		// Boton para cancelar ingresar datos
 		void Btt_cancelarClick(object sender, EventArgs e)
 		{
+			tbx_codigo.Text = "";
+			tbx_descripcion.Text = "";
 			gbx_mantenimiento.Enabled = false;
 			gbx_botones.Enabled = true;
 		}
@@ -65,14 +71,14 @@ namespace sistemas_reporte
 					
 					return;
 				}
+				
 				// actualizar valor
 				else	
 				{
 					MessageBox.Show("Actualizado correctamente");
 					
 					
-					lts_pantalla.Items.Insert(lts_pantalla.SelectedIndex,tbx_codigo.Text 
-					                          + " || " + tbx_descripcion.Text + "\r\n");
+					lts_pantalla.Items.Insert(lts_pantalla.SelectedIndex,tbx_codigo.Text + " || " + tbx_descripcion.Text + "\r\n");
 					lts_pantalla.Items.Remove(lts_pantalla.SelectedItem);
 					
 					tbx_codigo.Text="";
@@ -138,5 +144,54 @@ namespace sistemas_reporte
 			largo_del_texto -= 9;
 			tbx_descripcion.Text = texto_seleccionado.Substring(9, largo_del_texto);
 		}
-	}
+
+
+		// Generara y guardara un archivo .PDF con toda la información agregada
+        private void btt_reportar_Click(object sender, EventArgs e)
+        {
+            
+			if (lts_pantalla.Items.Count == 0)
+			{
+				MessageBox.Show("No hay elementos para reportar");
+				return;
+			}
+			
+			SaveFileDialog saveFileDialog = new SaveFileDialog();
+			saveFileDialog.Filter = "PDF Files (*.pdf)|*.pdf";
+
+			if (saveFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				Document documento = new Document();
+
+				try
+				{
+					PdfWriter.GetInstance(documento, new FileStream(saveFileDialog.FileName, FileMode.Create));
+
+					documento.Open();
+
+					documento.AddTitle($"Reporte Diario {DateTime.Now.ToShortDateString()}");
+					documento.AddAuthor("Sistema de Reporte FPL");
+
+					documento.Add(new Paragraph("Elementos del Reporte", 
+						FontFactory.GetFont(FontFactory.TIMES_BOLD, 18, BaseColor.Blue)));
+
+					documento.Add(new Paragraph(" "));
+
+					foreach (var item in lts_pantalla.Items)
+					{
+						documento.Add(new Paragraph($" - {item.ToString()}", 
+							FontFactory.GetFont(FontFactory.TIMES_BOLD, 12)));
+                    }
+
+					MessageBox.Show("Guardado con éxito");
+					
+                } catch (Exception ex)
+				{
+					MessageBox.Show($"Error: {ex.Message}");
+				}
+				finally { documento.Close(); }
+
+			}
+        }
+    }
 }
